@@ -1,4 +1,4 @@
-# **Luke CGF Grammar**
+# **Luke CGF**
 
 Start       ->  StmtBlock  
   
@@ -6,7 +6,7 @@ StmtBlock   ->  Stmt | StmtBlock Stmt
   
 Stmt        ->  Id *=* RExpr *;* | *{* StmtBlock *}* | *if* *(* RExpr *)* Stmt *else* Stmt | *while* *(* RExpr *)* Stmt  
   
-RExpr       ->  RExpr *<* AExpr | RExpr *>* AExpr | RExpr *>=* AExpr | RExpr *<=* AExpr | AExpr  
+RExpr       ->  RExpr *<* AExpr | RExpr *>* AExpr  
   
 AExpr       ->  AExpr *+* PExpr | AExpr *-* PExpr | PExpr  
   
