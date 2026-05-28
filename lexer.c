@@ -1,58 +1,4 @@
-#include <ctype.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-typedef enum Type {
-    KEYWORD,
-    ID,
-    INT_LIT,
-    SEPARATOR,
-    OPERATOR,
-} Type;
-
-typedef enum Key {
-    IF,
-    ELSE,
-    WHILE,
-    EXIT,
-} Key;
-
-typedef enum Sep {
-    LPAREN,
-    RPAREN,
-    LCURLY,
-    RCURLY,
-} Sep;
-
-typedef enum Op {
-    PLUS,
-    MINUS,
-    EQUALS,
-    LESS_THAN,
-    GRTR_THAN,
-} Op;
-
-typedef struct Token {
-    Type type;
-    union {
-        struct {
-            int value;
-        } INT_LIT;
-        struct {
-            char *name;
-        } ID;
-        struct {
-            Key value;
-        } KEYWORD;
-        struct {
-            Sep value;
-        } SEPARATOR;
-        struct {
-            Op value;
-        } OPERATOR;
-    } is;
-} Token;
+#include "compiler.h"
 
 char charpeek(char *str, int i) {
     return str[i];
@@ -64,7 +10,8 @@ char charconsume(char *str, int *i) {
 
 Token *lexer(FILE *fp, int *token_count) {
     Token *tokens = NULL;
-    char *file, c;
+    char *file;
+    int c;
     size_t i;
     FILE *stream = open_memstream(&file, &i);
 
@@ -77,43 +24,45 @@ Token *lexer(FILE *fp, int *token_count) {
     int file_index = 0;
 
     while (charpeek(file, file_index) != '\0') {
-        if (isalpha(charpeek(file, file_index))) {
+        if (isalpha((unsigned char)charpeek(file, file_index))) {
             char *token;
             size_t i = 0;
             FILE *strtoken = open_memstream(&token, &i);
             fputc(charconsume(file, &file_index), strtoken);
 
-            while (isalnum(charpeek(file, file_index))) {
+            while (isalnum((unsigned char)charpeek(file, file_index))) {
                 fputc(charconsume(file, &file_index), strtoken);
             }
 
             fclose(strtoken);
 
+            printf("%s\n", token);
+
             if (strcmp(token, "if") == 0) {
                 tokens = realloc(tokens, (++(*token_count)) * sizeof(Token));
                 tokens[*token_count - 1] = (Token){.type = KEYWORD, .is.KEYWORD.value = IF};
-            } else if (strcmp(token, "else")) {
+                free(token);
+            } else if (strcmp(token, "else") == 0) {
                 tokens = realloc(tokens, (++(*token_count)) * sizeof(Token));
                 tokens[*token_count - 1] = (Token){.type = KEYWORD, .is.KEYWORD.value = ELSE};
-            } else if (strcmp(token, "while")) {
+                free(token);
+            } else if (strcmp(token, "while") == 0) {
                 tokens = realloc(tokens, (++(*token_count)) * sizeof(Token));
                 tokens[*token_count - 1] = (Token){.type = KEYWORD, .is.KEYWORD.value = WHILE};
-            } else if (strcmp(token, "exit")) {
-                tokens = realloc(tokens, (++(*token_count)) * sizeof(Token));
-                tokens[*token_count - 1] = (Token){.type = KEYWORD, .is.KEYWORD.value = EXIT};
+                free(token);
             } else {
                 tokens = realloc(tokens, (++(*token_count)) * sizeof(Token));
                 tokens[*token_count - 1] = (Token){.type = ID, .is.ID.name = token};
             }
 
-        } else if (isdigit(charpeek(file, file_index))) {
+        } else if (isdigit((unsigned char)charpeek(file, file_index))) {
             char *token;
             size_t i = 0;
 
             FILE *numtoken = open_memstream(&token, &i);
             fputc(charconsume(file, &file_index), numtoken);
 
-            while (isdigit(charpeek(file, file_index))) {
+            while (isdigit((unsigned char)charpeek(file, file_index))) {
                 fputc(charconsume(file, &file_index), numtoken);
             }
 
@@ -121,43 +70,59 @@ Token *lexer(FILE *fp, int *token_count) {
 
             tokens = realloc(tokens, (++(*token_count)) * sizeof(Token));
             tokens[*token_count - 1] = (Token){.type = INT_LIT, .is.INT_LIT.value = strtoul(token, NULL, 10)};
-        } else if (charpeek(file, file_index) == '(') {
-            charconsume(file, &file_index);
+
+            printf("%s\n", token);
+
+            free(token);
+        } else if ((unsigned char)charpeek(file, file_index) == '(') {
+            printf("%c\n", charconsume(file, &file_index));
             tokens = realloc(tokens, (++(*token_count)) * sizeof(Token));
             tokens[*token_count - 1] = (Token){.type = SEPARATOR, .is.SEPARATOR.value = LPAREN};
-        } else if (charpeek(file, file_index) == ')') {
-            charconsume(file, &file_index);
+        } else if ((unsigned char)charpeek(file, file_index) == ')') {
+            printf("%c\n", charconsume(file, &file_index));
             tokens = realloc(tokens, (++(*token_count)) * sizeof(Token));
             tokens[*token_count - 1] = (Token){.type = SEPARATOR, .is.SEPARATOR.value = RPAREN};
-        } else if (charpeek(file, file_index) == '{') {
-            charconsume(file, &file_index);
+        } else if ((unsigned char)charpeek(file, file_index) == '{') {
+            printf("%c\n", charconsume(file, &file_index));
             tokens = realloc(tokens, (++(*token_count)) * sizeof(Token));
             tokens[*token_count - 1] = (Token){.type = SEPARATOR, .is.SEPARATOR.value = LCURLY};
-        } else if (charpeek(file, file_index) == '}') {
-            charconsume(file, &file_index);
+        } else if ((unsigned char)charpeek(file, file_index) == '}') {
+            printf("%c\n", charconsume(file, &file_index));
             tokens = realloc(tokens, (++(*token_count)) * sizeof(Token));
             tokens[*token_count - 1] = (Token){.type = SEPARATOR, .is.SEPARATOR.value = RCURLY};
-        } else if (charpeek(file, file_index) == '+') {
-            charconsume(file, &file_index);
+        } else if ((unsigned char)charpeek(file, file_index) == ';') {
+            printf("%c\n", charconsume(file, &file_index));
+            tokens = realloc(tokens, (++(*token_count)) * sizeof(Token));
+            tokens[*token_count - 1] = (Token){.type = SEPARATOR, .is.SEPARATOR.value = SEMI};
+        } else if ((unsigned char)charpeek(file, file_index) == '+') {
+            printf("%c\n", charconsume(file, &file_index));
             tokens = realloc(tokens, (++(*token_count)) * sizeof(Token));
             tokens[*token_count - 1] = (Token){.type = OPERATOR, .is.OPERATOR.value = PLUS};
-        } else if (charpeek(file, file_index) == '-') {
-            charconsume(file, &file_index);
+        } else if ((unsigned char)charpeek(file, file_index) == '-') {
+            printf("%c\n", charconsume(file, &file_index));
             tokens = realloc(tokens, (++(*token_count)) * sizeof(Token));
             tokens[*token_count - 1] = (Token){.type = OPERATOR, .is.OPERATOR.value = MINUS};
-        } else if (charpeek(file, file_index) == '=') {
+        } else if ((unsigned char)charpeek(file, file_index) == '=') {
             charconsume(file, &file_index);
-            tokens = realloc(tokens, (++(*token_count)) * sizeof(Token));
-            tokens[*token_count - 1] = (Token){.type = OPERATOR, .is.OPERATOR.value = EQUALS};
-        } else if (charpeek(file, file_index) == '<') {
-            charconsume(file, &file_index);
+            if ((unsigned char)charpeek(file, file_index) == '=') {
+                charconsume(file, &file_index);
+                tokens = realloc(tokens, (++(*token_count)) * sizeof(Token));
+                tokens[*token_count - 1] = (Token){.type = OPERATOR, .is.OPERATOR.value = EQUALITY};
+                printf("==\n");
+            } else {
+                tokens = realloc(tokens, (++(*token_count)) * sizeof(Token));
+                tokens[*token_count - 1] = (Token){.type = OPERATOR, .is.OPERATOR.value = EQUALS};
+                printf("=\n");
+            }
+        } else if ((unsigned char)charpeek(file, file_index) == '<') {
+            printf("%c\n", charconsume(file, &file_index));
             tokens = realloc(tokens, (++(*token_count)) * sizeof(Token));
             tokens[*token_count - 1] = (Token){.type = OPERATOR, .is.OPERATOR.value = LESS_THAN};
-        } else if (charpeek(file, file_index) == '>') {
-            charconsume(file, &file_index);
+        } else if ((unsigned char)charpeek(file, file_index) == '>') {
+            printf("%c\n", charconsume(file, &file_index));
             tokens = realloc(tokens, (++(*token_count)) * sizeof(Token));
             tokens[*token_count - 1] = (Token){.type = OPERATOR, .is.OPERATOR.value = GRTR_THAN};
-        } else if (isspace(charpeek(file, file_index))) {
+        } else if (isspace((unsigned char)charpeek(file, file_index))) {
             charconsume(file, &file_index);
         } else {
             fprintf(stderr, "could not tokenize");

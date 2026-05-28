@@ -1,0 +1,14 @@
+num = 5;
+index = 0;
+
+while (index < 5) {
+    index = index + 1;
+}
+
+if (num == 5) {
+    index = 2;
+}
+else {
+    index = 6;
+}
+
