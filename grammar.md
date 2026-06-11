@@ -1,21 +1,24 @@
-# **Luke CGF**
+# **EBNF CGF**
 
-Start       ->  StmtBlock  
+StmtList    ->  { Stmt }
   
-StmtBlock   ->  Stmt | StmtBlock Stmt  
+Start       ->  StmtList  
   
-Stmt        ->  Id *=* RExpr *;* | *{* StmtBlock *}* | *if* *(* RExpr *)* Stmt | *if* *(* RExpr *)* Stmt *else* Stmt | *while* *(* RExpr *)* Stmt  
+Stmt        ->  Id "=" AExpr ";" | "if" "(" RExpr ")" "{" StmtList "}" ElsePart | "while" "(" RExpr ")" "{" StmtList "}"  
   
-RExpr       ->  RExpr *<* AExpr | RExpr *>* AExpr | RExpr *==* AExpr | AExpr  
+ElsePart    ->  "else" "{" StmtList "}" | ε  
   
-AExpr       ->  AExpr *+* PExpr | AExpr *-* PExpr | PExpr  
+RExpr       ->  AExpr ( "<" | ">" | "==" ) AExpr  
   
-PExpr       ->  Id | Num  
+*AExpr       ->  Atom { ( "+" | "-" ) Atom }  
   
-Id          ->  (*a...z*|*A...Z*)⁺(*0...9*|*a...z*|*A...Z*)\*  
+*Atom        ->  Id | Num  
   
-Num         ->  (*0...9*)⁺  
+*Id          ->  "a...z"|"A...Z",{ "0...9"|"a...z"|"A...Z" }  
+  
+*Num         ->  "0...9",{ "0...9" }  
   
 
-## Notes
-An `else` binds to the nearest preceding `if` that has no `else` of its own
+### Notes
+* An `else` binds to the nearest preceding `if` that has no `else` of its own
+
