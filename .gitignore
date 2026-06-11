@@ -1,0 +1,7 @@
+#binary
+/luke
+
+*.o
+a.out
+
+*.asm
