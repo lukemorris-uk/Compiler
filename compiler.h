@@ -128,5 +128,27 @@ typedef struct Tokens {
 } TokenStream;
 
 AST *parse_stmt(TokenStream *ts);
+Token tokenconsume(TokenStream *ts);
+Token tokenpeek(TokenStream *ts);
+Token tokenexpect(TokenStream *ts, Type type, int value, char *expected);
+void append_stmt(StmtList *s, AST *stmt);
+AST *ast_start();
+AST *node_id(TokenStream *ts);
+AST *node_literal(TokenStream *ts);
+AST *subtree_bin(Op op, AST *left, AST *right);
+AST *subtree_assign(AST *target, AST *value);
+AST *parse_atom(TokenStream *ts);
+AST *subtree_if_stmt(AST *condition, StmtList stmts, AST *else_stmt);
+AST *subtree_else_stmt(StmtList stmts);
+AST *subtree_while_stmt(AST *condition, StmtList stmts);
+AST *parse_aexpr(TokenStream *ts);
+AST *parse_rexpr(TokenStream *ts);
+AST *parse_else_stmt(TokenStream *ts);
+AST *parse_assign(TokenStream *ts);
+AST *parse_if_stmt(TokenStream *ts);
+AST *parse_while_stmt(TokenStream *ts);
+AST *start_parse(TokenStream *ts);
+
+void ast_print(AST *ast);
 
 #endif

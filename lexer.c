@@ -36,8 +36,6 @@ Token *lexer(FILE *fp, int *token_count) {
 
             fclose(strtoken);
 
-            printf("%s\n", token);
-
             if (strcmp(token, "if") == 0) {
                 tokens = realloc(tokens, (++(*token_count)) * sizeof(Token));
                 tokens[*token_count - 1] = (Token){.type = KEYWORD, .linenum = linenum, .is.KEYWORD.value = IF, .content = "if"};
@@ -71,33 +69,25 @@ Token *lexer(FILE *fp, int *token_count) {
             tokens = realloc(tokens, (++(*token_count)) * sizeof(Token));
             tokens[*token_count - 1] = (Token){.type = INT_LITERAL, .linenum = linenum, .is.INT_LIT.value = strtoul(token, NULL, 10), .content = token};
 
-            printf("%s\n", token);
         } else if ((unsigned char)charpeek(file, file_index) == '(') {
-            printf("%c\n", charconsume(file, &file_index));
             tokens = realloc(tokens, (++(*token_count)) * sizeof(Token));
             tokens[*token_count - 1] = (Token){.type = SEPARATOR, .linenum = linenum, .is.SEPARATOR.value = LPAREN, .content = "("};
         } else if ((unsigned char)charpeek(file, file_index) == ')') {
-            printf("%c\n", charconsume(file, &file_index));
             tokens = realloc(tokens, (++(*token_count)) * sizeof(Token));
             tokens[*token_count - 1] = (Token){.type = SEPARATOR, .linenum = linenum, .is.SEPARATOR.value = RPAREN, .content = ")"};
         } else if ((unsigned char)charpeek(file, file_index) == '{') {
-            printf("%c\n", charconsume(file, &file_index));
             tokens = realloc(tokens, (++(*token_count)) * sizeof(Token));
             tokens[*token_count - 1] = (Token){.type = SEPARATOR, .linenum = linenum, .is.SEPARATOR.value = LCURLY, .content = "{"};
         } else if ((unsigned char)charpeek(file, file_index) == '}') {
-            printf("%c\n", charconsume(file, &file_index));
             tokens = realloc(tokens, (++(*token_count)) * sizeof(Token));
             tokens[*token_count - 1] = (Token){.type = SEPARATOR, .linenum = linenum, .is.SEPARATOR.value = RCURLY, .content = "}"};
         } else if ((unsigned char)charpeek(file, file_index) == ';') {
-            printf("%c\n", charconsume(file, &file_index));
             tokens = realloc(tokens, (++(*token_count)) * sizeof(Token));
             tokens[*token_count - 1] = (Token){.type = SEPARATOR, .linenum = linenum, .is.SEPARATOR.value = SEMI, .content = ";"};
         } else if ((unsigned char)charpeek(file, file_index) == '+') {
-            printf("%c\n", charconsume(file, &file_index));
             tokens = realloc(tokens, (++(*token_count)) * sizeof(Token));
             tokens[*token_count - 1] = (Token){.type = OPERATOR, .linenum = linenum, .is.OPERATOR.value = PLUS, .content = "+"};
         } else if ((unsigned char)charpeek(file, file_index) == '-') {
-            printf("%c\n", charconsume(file, &file_index));
             tokens = realloc(tokens, (++(*token_count)) * sizeof(Token));
             tokens[*token_count - 1] = (Token){.type = OPERATOR, .linenum = linenum, .is.OPERATOR.value = MINUS, .content = "-"};
         } else if ((unsigned char)charpeek(file, file_index) == '=') {
@@ -106,18 +96,14 @@ Token *lexer(FILE *fp, int *token_count) {
                 charconsume(file, &file_index);
                 tokens = realloc(tokens, (++(*token_count)) * sizeof(Token));
                 tokens[*token_count - 1] = (Token){.type = OPERATOR, .linenum = linenum, .is.OPERATOR.value = EQUALSEQUALS, .content = "=="};
-                printf("==\n");
             } else {
                 tokens = realloc(tokens, (++(*token_count)) * sizeof(Token));
                 tokens[*token_count - 1] = (Token){.type = OPERATOR, .linenum = linenum, .is.OPERATOR.value = EQUALS, .content = "="};
-                printf("=\n");
             }
         } else if ((unsigned char)charpeek(file, file_index) == '<') {
-            printf("%c\n", charconsume(file, &file_index));
             tokens = realloc(tokens, (++(*token_count)) * sizeof(Token));
             tokens[*token_count - 1] = (Token){.type = OPERATOR, .linenum = linenum, .is.OPERATOR.value = LESS_THAN, .content = "<"};
         } else if ((unsigned char)charpeek(file, file_index) == '>') {
-            printf("%c\n", charconsume(file, &file_index));
             tokens = realloc(tokens, (++(*token_count)) * sizeof(Token));
             tokens[*token_count - 1] = (Token){.type = OPERATOR, .linenum = linenum, .is.OPERATOR.value = GRTR_THAN, .content = ">"};
         } else if (isspace((unsigned char)charpeek(file, file_index))) {
