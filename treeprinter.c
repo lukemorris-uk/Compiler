@@ -10,7 +10,7 @@ void ast_print(AST *ast) {
             ast_print(ast->is.start.stmts.stmtarray[i]);
             printf("\n");
         }
-        printf(")");
+        printf(")\n");
         break;
     case AST_ASSIGN:
         printf("( =");
@@ -30,7 +30,7 @@ void ast_print(AST *ast) {
         printf(")");
         break;
     case AST_ELSE_STMT:
-        printf("( else");
+        printf("( else ");
         for (int i = 0; i < ast->is.else_stmt.stmts.len; i++) {
             ast_print(ast->is.else_stmt.stmts.stmtarray[i]);
         }
@@ -45,7 +45,7 @@ void ast_print(AST *ast) {
         printf(")");
         break;
     case AST_EXPR:
-        printf("( %s", oplist[ast->is.bin.op]);
+        printf(" ( %s", oplist[ast->is.bin.op]);
         ast_print(ast->is.bin.left);
         ast_print(ast->is.bin.right);
         printf(")");

@@ -132,7 +132,7 @@ Token tokenconsume(TokenStream *ts);
 Token tokenpeek(TokenStream *ts);
 Token tokenexpect(TokenStream *ts, Type type, int value, char *expected);
 void append_stmt(StmtList *s, AST *stmt);
-AST *ast_start();
+AST *ast_start(void);
 AST *node_id(TokenStream *ts);
 AST *node_literal(TokenStream *ts);
 AST *subtree_bin(Op op, AST *left, AST *right);

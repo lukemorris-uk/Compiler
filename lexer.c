@@ -70,24 +70,31 @@ Token *lexer(FILE *fp, int *token_count) {
             tokens[*token_count - 1] = (Token){.type = INT_LITERAL, .linenum = linenum, .is.INT_LIT.value = strtoul(token, NULL, 10), .content = token};
 
         } else if ((unsigned char)charpeek(file, file_index) == '(') {
+            charconsume(file, &file_index);
             tokens = realloc(tokens, (++(*token_count)) * sizeof(Token));
             tokens[*token_count - 1] = (Token){.type = SEPARATOR, .linenum = linenum, .is.SEPARATOR.value = LPAREN, .content = "("};
         } else if ((unsigned char)charpeek(file, file_index) == ')') {
+            charconsume(file, &file_index);
             tokens = realloc(tokens, (++(*token_count)) * sizeof(Token));
             tokens[*token_count - 1] = (Token){.type = SEPARATOR, .linenum = linenum, .is.SEPARATOR.value = RPAREN, .content = ")"};
         } else if ((unsigned char)charpeek(file, file_index) == '{') {
+            charconsume(file, &file_index);
             tokens = realloc(tokens, (++(*token_count)) * sizeof(Token));
             tokens[*token_count - 1] = (Token){.type = SEPARATOR, .linenum = linenum, .is.SEPARATOR.value = LCURLY, .content = "{"};
         } else if ((unsigned char)charpeek(file, file_index) == '}') {
+            charconsume(file, &file_index);
             tokens = realloc(tokens, (++(*token_count)) * sizeof(Token));
             tokens[*token_count - 1] = (Token){.type = SEPARATOR, .linenum = linenum, .is.SEPARATOR.value = RCURLY, .content = "}"};
         } else if ((unsigned char)charpeek(file, file_index) == ';') {
+            charconsume(file, &file_index);
             tokens = realloc(tokens, (++(*token_count)) * sizeof(Token));
             tokens[*token_count - 1] = (Token){.type = SEPARATOR, .linenum = linenum, .is.SEPARATOR.value = SEMI, .content = ";"};
         } else if ((unsigned char)charpeek(file, file_index) == '+') {
+            charconsume(file, &file_index);
             tokens = realloc(tokens, (++(*token_count)) * sizeof(Token));
             tokens[*token_count - 1] = (Token){.type = OPERATOR, .linenum = linenum, .is.OPERATOR.value = PLUS, .content = "+"};
         } else if ((unsigned char)charpeek(file, file_index) == '-') {
+            charconsume(file, &file_index);
             tokens = realloc(tokens, (++(*token_count)) * sizeof(Token));
             tokens[*token_count - 1] = (Token){.type = OPERATOR, .linenum = linenum, .is.OPERATOR.value = MINUS, .content = "-"};
         } else if ((unsigned char)charpeek(file, file_index) == '=') {
@@ -101,9 +108,11 @@ Token *lexer(FILE *fp, int *token_count) {
                 tokens[*token_count - 1] = (Token){.type = OPERATOR, .linenum = linenum, .is.OPERATOR.value = EQUALS, .content = "="};
             }
         } else if ((unsigned char)charpeek(file, file_index) == '<') {
+            charconsume(file, &file_index);
             tokens = realloc(tokens, (++(*token_count)) * sizeof(Token));
             tokens[*token_count - 1] = (Token){.type = OPERATOR, .linenum = linenum, .is.OPERATOR.value = LESS_THAN, .content = "<"};
         } else if ((unsigned char)charpeek(file, file_index) == '>') {
+            charconsume(file, &file_index);
             tokens = realloc(tokens, (++(*token_count)) * sizeof(Token));
             tokens[*token_count - 1] = (Token){.type = OPERATOR, .linenum = linenum, .is.OPERATOR.value = GRTR_THAN, .content = ">"};
         } else if (isspace((unsigned char)charpeek(file, file_index))) {

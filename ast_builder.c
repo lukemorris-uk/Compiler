@@ -44,7 +44,7 @@ void append_stmt(StmtList *s, AST *stmt) {
     s->stmtarray[s->len - 1] = stmt;
 }
 
-AST *ast_start() {
+AST *ast_start(void) {
     AST *startnode = malloc(sizeof(AST));
     startnode->kind = AST_START;
     startnode->is.start.stmts.stmtarray = NULL;
