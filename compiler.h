@@ -70,7 +70,7 @@ typedef enum {
     AST_WHILE_STMT,
     AST_EXPR,
     AST_ID,
-    AST_LITERAL,
+    AST_INT_LITERAL,
 } ASTKind;
 
 typedef struct AST AST;
@@ -150,5 +150,18 @@ AST *parse_while_stmt(TokenStream *ts);
 AST *start_parse(TokenStream *ts);
 
 void ast_print(AST *ast);
+
+typedef enum DataType {
+    INT,
+} DataType;
+
+typedef struct SymbolTable {
+    char **symbols;
+    DataType *datatypes;
+    int len;
+    int capacity;
+} SymbolTable;
+
+void ast_analyse(AST *ast, SymbolTable *st);
 
 #endif

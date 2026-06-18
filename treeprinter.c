@@ -53,7 +53,7 @@ void ast_print(AST *ast) {
     case AST_ID:
         printf(" %s", ast->token.content);
         break;
-    case AST_LITERAL:
+    case AST_INT_LITERAL:
         printf(" %s ", ast->token.content);
         break;
     }

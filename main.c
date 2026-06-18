@@ -11,6 +11,8 @@ int main(int argc, char **argv) {
     TokenStream ts = (TokenStream){tokens, token_count, 0};
     AST *ast = start_parse(&ts);
     ast_print(ast);
+    SymbolTable st = (SymbolTable){NULL, NULL, 0, 0};
+    ast_analyse(ast, &st);
 
     return EXIT_SUCCESS;
 }
