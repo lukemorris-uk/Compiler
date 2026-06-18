@@ -50,6 +50,11 @@ void ast_print(AST *ast) {
         ast_print(ast->is.bin.right);
         printf(")");
         break;
+    case AST_OUTPUT:
+        printf("( output (");
+        ast_print(ast->is.output.aexpr);
+        printf(" )");
+        break;
     case AST_ID:
         printf(" %s", ast->token.content);
         break;

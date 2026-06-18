@@ -48,6 +48,10 @@ Token *lexer(FILE *fp, int *token_count) {
                 tokens = realloc(tokens, (++(*token_count)) * sizeof(Token));
                 tokens[*token_count - 1] = (Token){.type = KEYWORD, .linenum = linenum, .is.KEYWORD.value = WHILE, .content = "while"};
                 free(token);
+            } else if (strcmp(token, "output") == 0) {
+                tokens = realloc(tokens, (++(*token_count)) * sizeof(Token));
+                tokens[*token_count - 1] = (Token){.type = KEYWORD, .linenum = linenum, .is.KEYWORD.value = OUTPUT, .content = "output"};
+                free(token);
             } else {
                 tokens = realloc(tokens, (++(*token_count)) * sizeof(Token));
                 tokens[*token_count - 1] = (Token){.type = ID, .linenum = linenum, .is.ID.name = token, .content = token};

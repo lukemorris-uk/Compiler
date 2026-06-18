@@ -72,6 +72,9 @@ void ast_analyse(AST *ast, SymbolTable *st) {
     case AST_EXPR:
         ast_analyse_expr(ast, st);
         break;
+    case AST_OUTPUT:
+        ast_analyse_expr(ast->is.output.aexpr, st);
+        break;
     case AST_ID:
         break;
     case AST_INT_LITERAL:

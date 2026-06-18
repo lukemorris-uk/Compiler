@@ -1,5 +1,6 @@
 #binary
 /luke
+/main
 
 *.o
 a.out

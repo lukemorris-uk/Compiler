@@ -62,7 +62,7 @@ AST *node_id(TokenStream *ts) {
 
 AST *node_literal(TokenStream *ts) {
     AST *node = malloc(sizeof(AST));
-    node->kind = AST_LITERAL;
+    node->kind = AST_INT_LITERAL;
     node->token = tokenconsume(ts);
     return node;
 }
@@ -121,6 +121,13 @@ AST *subtree_while_stmt(AST *condition, StmtList stmts) {
     return while_stmt;
 }
 
+AST *subtree_output(AST *aexpr) {
+    AST *output = malloc(sizeof(AST));
+    output->kind = AST_OUTPUT;
+    output->is.output.aexpr = aexpr;
+    return output;
+}
+
 AST *parse_aexpr(TokenStream *ts) {
     AST *left = parse_atom(ts);
     while (tokenpeek(ts).type == OPERATOR && (tokenpeek(ts).is.OPERATOR.value == PLUS || tokenpeek(ts).is.OPERATOR.value == MINUS)) {
@@ -129,6 +136,15 @@ AST *parse_aexpr(TokenStream *ts) {
         left = subtree_bin(op, left, right);
     }
     return left;
+}
+
+AST *parse_output(TokenStream *ts) {
+    tokenexpect(ts, KEYWORD, OUTPUT, "output");
+    tokenexpect(ts, SEPARATOR, LPAREN, "(");
+    AST *aexpr = parse_aexpr(ts);
+    tokenexpect(ts, SEPARATOR, RPAREN, ")");
+    tokenexpect(ts, SEPARATOR, SEMI, ";");
+    return subtree_output(aexpr);
 }
 
 AST *parse_rexpr(TokenStream *ts) {
@@ -210,6 +226,8 @@ AST *parse_stmt(TokenStream *ts) {
             stmt = parse_if_stmt(ts);
         } else if (tokenpeek(ts).is.KEYWORD.value == WHILE) {
             stmt = parse_while_stmt(ts);
+        } else if (tokenpeek(ts).is.KEYWORD.value == OUTPUT) {
+            stmt = parse_output(ts);
         } else {
             fprintf(stderr, "line %d: expected statement\n", tokenpeek(ts).linenum);
             exit(EXIT_FAILURE);

@@ -4,19 +4,19 @@ StmtList    ->  { Stmt }
   
 Start       ->  StmtList  
   
-Stmt        ->  Id "=" AExpr ";" | "if" "(" RExpr ")" "{" StmtList "}" ElsePart | "while" "(" RExpr ")" "{" StmtList "}"  
+Stmt        ->  Id "=" AExpr ";" | output "(" AExpr ")" ";" | "if" "(" RExpr ")" "{" StmtList "}" ElsePart | "while" "(" RExpr ")" "{" StmtList "}"  
   
 ElsePart    ->  "else" "{" StmtList "}" | ε  
   
 RExpr       ->  AExpr ( "<" | ">" | "==" ) AExpr  
   
-*AExpr       ->  Atom { ( "+" | "-" ) Atom }  
+AExpr       ->  Atom { ( "+" | "-" ) Atom }  
   
-*Atom        ->  Id | Num  
+Atom        ->  Id | Num  
   
-*Id          ->  "a...z"|"A...Z",{ "0...9"|"a...z"|"A...Z" }  
+Id          ->  "a...z"|"A...Z",{ "0...9"|"a...z"|"A...Z" }  
   
-*Num         ->  "0...9",{ "0...9" }  
+Num         ->  "0...9",{ "0...9" }  
   
 
 ### Notes

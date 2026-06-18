@@ -20,7 +20,8 @@ typedef enum Key {
     IF,
     ELSE,
     WHILE,
-} Key;
+    OUTPUT,
+} Keyword;
 
 typedef enum Sep {
     LPAREN,
@@ -50,7 +51,7 @@ typedef struct Token {
             char *name;
         } ID;
         struct {
-            Key value;
+            Keyword value;
         } KEYWORD;
         struct {
             Sep value;
@@ -68,6 +69,7 @@ typedef enum {
     AST_IF_STMT,
     AST_ELSE_STMT,
     AST_WHILE_STMT,
+    AST_OUTPUT,
     AST_EXPR,
     AST_ID,
     AST_INT_LITERAL,
@@ -105,6 +107,9 @@ typedef struct {
     AST *left;
     AST *right;
 } bin;
+typedef struct {
+    AST *aexpr;
+} output;
 
 struct AST {
     ASTKind kind;
@@ -115,6 +120,7 @@ struct AST {
         if_stmt if_stmt;
         else_stmt else_stmt;
         while_stmt while_stmt;
+        output output;
         bin bin;
     } is;
 };
