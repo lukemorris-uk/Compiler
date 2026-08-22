@@ -1,0 +1,3 @@
+#!/bin/bash
+set -e
+gcc -g -Wall -Wextra -o ./main main.c lexer.c syntanalysis.c semanalysis.c treeprinter.c codegen.c

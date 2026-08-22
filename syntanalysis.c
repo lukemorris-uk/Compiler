@@ -9,7 +9,7 @@ Token tokenpeek(TokenStream *ts) {
     return ts->tokens[ts->i];
 }
 
-Token tokenexpect(TokenStream *ts, Type type, int value, char *expected) {
+Token tokenexpect(TokenStream *ts, Type type, unsigned int value, char *expected) {
     Token token = tokenpeek(ts);
     bool matches = (token.type == type);
     if (matches) {

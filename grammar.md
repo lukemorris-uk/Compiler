@@ -20,5 +20,5 @@ Num         ->  "0...9",{ "0...9" }
   
 
 ### Notes
-* An `else` binds to the nearest preceding `if` that has no `else` of its own
+* An `else` binds to the nearest `if` before it that doesnt have an `else`
 

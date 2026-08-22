@@ -136,7 +136,7 @@ typedef struct Tokens {
 AST *parse_stmt(TokenStream *ts);
 Token tokenconsume(TokenStream *ts);
 Token tokenpeek(TokenStream *ts);
-Token tokenexpect(TokenStream *ts, Type type, int value, char *expected);
+Token tokenexpect(TokenStream *ts, Type type, unsigned int value, char *expected);
 void append_stmt(StmtList *s, AST *stmt);
 AST *ast_start(void);
 AST *node_id(TokenStream *ts);
@@ -169,5 +169,7 @@ typedef struct SymbolTable {
 } SymbolTable;
 
 void ast_analyse(AST *ast, SymbolTable *st);
+
+void ast_gen(FILE *fp, AST *ast, SymbolTable *st);
 
 #endif

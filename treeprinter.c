@@ -51,7 +51,7 @@ void ast_print(AST *ast) {
         printf(")");
         break;
     case AST_OUTPUT:
-        printf("( output (");
+        printf("( output ");
         ast_print(ast->is.output.aexpr);
         printf(" )");
         break;

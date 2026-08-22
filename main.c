@@ -13,6 +13,8 @@ int main(int argc, char **argv) {
     ast_print(ast);
     SymbolTable st = (SymbolTable){NULL, NULL, 0, 0};
     ast_analyse(ast, &st);
+    FILE *out = fopen("out.s", "w");
+    ast_gen(out, ast, &st);
 
     return EXIT_SUCCESS;
 }
