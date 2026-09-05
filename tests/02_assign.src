@@ -1,0 +1,8 @@
+a = 5;
+b = a - 8;
+output(a);
+output(b);
+output(a + b);
+a = a + 1;
+a = a + a;
+output(a);

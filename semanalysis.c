@@ -34,7 +34,7 @@ void ast_analyse_expr(AST *ast, SymbolTable *st) {
         break;
     case AST_ID:
         if (!in_symboltable(ast->token.content, st)) {
-            fprintf(stderr, "line %d: variable \"%s\" not declared\n", ast->token.linenum, ast->token.content);
+            fprintf(stderr, "line %d: variable \"%s\" not defined\n", ast->token.linenum, ast->token.content);
             exit(EXIT_FAILURE);
         }
         break;

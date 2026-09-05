@@ -1,0 +1,8 @@
+i = 1;
+total = 0;
+while (i < 11) {
+    total = total + i;
+    i = i + 1;
+}
+output(total);
+output(i);

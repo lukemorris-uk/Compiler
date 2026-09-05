@@ -1,0 +1,4 @@
+a = 1;
+if (a == 1) { } else { output(9); }
+while (a > 5) { }
+output(a);

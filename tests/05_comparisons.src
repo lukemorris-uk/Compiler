@@ -1,0 +1,9 @@
+a = 4;
+b = 7;
+if (a < b) { output(1); } else { output(0); }
+if (b < a) { output(1); } else { output(0); }
+if (a > b) { output(1); } else { output(0); }
+if (b > a) { output(1); } else { output(0); }
+if (a == a) { output(1); } else { output(0); }
+if (a == b) { output(1); } else { output(0); }
+if (b - 3 == a) { output(1); } else { output(0); }

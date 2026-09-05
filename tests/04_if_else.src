@@ -1,0 +1,3 @@
+a = 1;
+if (a == 1) { output(10); } else { output(20); }
+if (a == 2) { output(30); } else { output(40); }

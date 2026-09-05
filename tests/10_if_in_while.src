@@ -1,0 +1,9 @@
+i = 0;
+while (i < 6) {
+    if (i < 3) {
+        output(0 - i);
+    } else {
+        if (i == 4) { output(100); } else { output(i); }
+    }
+    i = i + 1;
+}

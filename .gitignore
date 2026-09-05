@@ -1,8 +1,8 @@
 #binary
 /luke
 /main
-
+out
+out.s
 *.o
 a.out
-
 *.asm

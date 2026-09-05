@@ -1,0 +1,6 @@
+i = 10;
+while (i < 5) {
+    output(999);
+    i = i + 1;
+}
+output(i);

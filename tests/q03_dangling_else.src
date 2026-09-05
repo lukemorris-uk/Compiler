@@ -1,0 +1,9 @@
+a = 1;
+b = 0;
+if (a == 1) {
+    if (b == 1) {
+        output(11);
+    } else {
+        output(10);
+    }
+}

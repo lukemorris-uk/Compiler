@@ -86,31 +86,31 @@ void ast_gen(FILE *fp, AST *ast, SymbolTable *st) {
     case AST_EXPR: {
         ast_gen(fp, ast->is.bin.left, st);
         ast_gen(fp, ast->is.bin.right, st);
-        fprintf(fp, "popq %%rbx\n");
+        fprintf(fp, "popq %%rcx\n");
         fprintf(fp, "popq %%rax\n");
         switch (ast->is.bin.op) {
         case PLUS:
-            fprintf(fp, "addq %%rbx, %%rax\n");
+            fprintf(fp, "addq %%rcx, %%rax\n");
             fprintf(fp, "pushq %%rax\n");
             break;
         case MINUS:
-            fprintf(fp, "subq %%rbx, %%rax\n");
+            fprintf(fp, "subq %%rcx, %%rax\n");
             fprintf(fp, "pushq %%rax\n");
             break;
         case LESS_THAN:
-            fprintf(fp, "cmpq %%rbx, %%rax\n");
+            fprintf(fp, "cmpq %%rcx, %%rax\n");
             fprintf(fp, "movl $0, %%eax\n");
             fprintf(fp, "setl %%al\n");
             fprintf(fp, "pushq %%rax\n");
             break;
         case GRTR_THAN:
-            fprintf(fp, "cmpq %%rbx, %%rax\n");
+            fprintf(fp, "cmpq %%rcx, %%rax\n");
             fprintf(fp, "movl $0, %%eax\n");
             fprintf(fp, "setg %%al\n");
             fprintf(fp, "pushq %%rax\n");
             break;
         case EQUALSEQUALS:
-            fprintf(fp, "cmpq %%rbx, %%rax\n");
+            fprintf(fp, "cmpq %%rcx, %%rax\n");
             fprintf(fp, "movl $0, %%eax\n");
             fprintf(fp, "sete %%al\n");
             fprintf(fp, "pushq %%rax\n");
